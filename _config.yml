@@ -1,5 +1,5 @@
 # Site settings
-title: Microdust
+title: zyuzhi
 header-img: "img/autumn2.jpg"
 tagline: "zyuzhi"  
 description: "随心"  
@@ -22,7 +22,7 @@ favicon: img/favicon.ico
 github_username: zyuzhi  
 #facebook_username: Azeril_Lapland  
 weibo_username: zyuzhi在上海
-zhihu_username: zyuzhi  
+zhihu_username: z.yuzhi  
 
 # Build settings  
 # use Github Flavored Markdown !important  
