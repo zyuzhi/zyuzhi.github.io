@@ -1,6 +1,6 @@
 # Site settings
 title: zyuzhi
-header-img: "img/autumn2.jpg"
+header-img: "img/louvre_pyramid.jpg"
 tagline: "zyuzhi"  
 description: "随心"  
 baseurl: ""
@@ -18,9 +18,9 @@ gavatar: http://dreamofbook.qiniudn.com/Az..png
 favicon: img/favicon.ico
 
 #douban_username: Azeril
-#twitter_username: Azeril_Lapland  
+twitter_username: zyuzhi
 github_username: zyuzhi  
-#facebook_username: Azeril_Lapland  
+facebook_username: yuzhi.me
 weibo_username: zyuzhi在上海
 zhihu_username: z.yuzhi  
 
@@ -33,7 +33,7 @@ kramdown:
 highlighter: rouge
 
 gems: 
-- jekyll-gallery-generator
+#- jekyll-gallery-generator
 - jekyll-paginate
 permalink: none
 paginate: 8
