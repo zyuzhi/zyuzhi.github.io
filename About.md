@@ -2,7 +2,7 @@
 layout: page
 title: "About"
 description: "关于我"
-header-img: "img/plane.jpg"
+header-img: "img/kelon_church.jpg"
 ---
 
 <center>
