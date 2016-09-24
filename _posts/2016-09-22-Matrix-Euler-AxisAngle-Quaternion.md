@@ -14,6 +14,7 @@ description: 旋转矩阵、欧拉角、四元数和角轴的关系及推导
 **[角轴(axis angle)](https://en.wikipedia.org/wiki/Axis%E2%80%93angle_representation)**。  
 
 自己的一些理解：
+
 1. 欧拉角中的 **(x, y, z)**，**(roll, pitch, yaw)**，**(heading, elevation(attitude), bank)**是一回事，名称不同
 1. 四元数和角轴近似
 1. 角轴（**Axis Angle**）和**exponential twist**、罗德里格斯（**Rodrigues**）旋转向量是一回事，叫法不同，公式上有微小不同  
