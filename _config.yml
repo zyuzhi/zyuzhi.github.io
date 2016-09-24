@@ -15,12 +15,12 @@ owner:
 
 # Data
 gavatar: http://dreamofbook.qiniudn.com/Az..png
-favicon: img/favicon.ico
+favicon: /img/favicon.ico
 
 #douban_username: Azeril
 twitter_username: zyuzhi
 github_username: zyuzhi  
-facebook_username: yuzhi.me
+#facebook_username: yuzhi.me
 weibo_username: zyuzhi在上海
 zhihu_username: z.yuzhi  
 
@@ -54,7 +54,7 @@ defaults:
     values:
       layout: "post"
       author: "zyuzhi"
-      header-img: "img/fantasy.jpg" # We don't want posts without a header image, that whould mean white on white
+      header-img: "img/road.jpg" # We don't want posts without a header image, that whould mean white on white
 
 
 # Comments 
