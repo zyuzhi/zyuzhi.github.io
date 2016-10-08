@@ -10,6 +10,7 @@ description: C#异常抛出的方式：throw，throw ex，throw new Exception(..
 
 1. throw  
 代码
+
 ```c#
 try
 {
@@ -23,6 +24,7 @@ catch
 这种方式是将原先的异常再次抛出（rethrow），且不会重置异常的堆栈信息（在原先的堆栈信息上增加了当前的异常信息）。是最为推荐的异常抛出方式。  
 1. throw new Exception(...)  
 代码
+
 ```c#
 try
 {
@@ -47,6 +49,7 @@ catch (Exception ex)
 ```
 1. throw ex  
 代码
+
 ```c#
 try
 {
