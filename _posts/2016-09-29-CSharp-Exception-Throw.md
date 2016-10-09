@@ -193,7 +193,11 @@ System.DivideByZeroException: 尝试除以零。
 ```
 
 ## 结论
-1. ```throw;``` good
-1. ```throw new Exception("msg", ex);``` good
-1. ```throw new Exception("msg");``` bad
-1. ```throw ex;``` bad
+
+| 异常抛出的方式                        | 推荐使用 |
+| ---                                   | ---      |
+| ```throw;```                          | **GOOD** |
+| ```throw new Exception("msg", ex);``` | **GOOD** |
+| ```throw new Exception("msg");```     | **BAD**  |
+| ```throw ex;```                       | **BAD**  |
+{:.center-block}
