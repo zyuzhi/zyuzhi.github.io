@@ -29,7 +29,7 @@ zhihu_username: z.yuzhi
 # document: http://jekyllrb.com/docs/configuration/#kramdown  
 markdown: kramdown
 kramdown:
-  input:          GFM
+  input: GFM
   # https://github.com/jekyll/jekyll/pull/4090
   syntax_highlighter: rouge
 
@@ -38,9 +38,6 @@ kramdown:
   syntax_highlighter_opts:
     # Rouge Options › https://github.com/jneen/rouge#full-options
     css_class: 'highlight'
-    table_class: z-code-table
-    gutter_class: z-code-gutter
-    code_class: z-code-col
     #line_numbers: true # bad idea, spans don't need linenos and would inherit this option
     span:
       line_numbers: false
@@ -49,13 +46,12 @@ kramdown:
       start_line: 1
 
 highlighter: rouge
-line_numbers: true
 
 gems: 
 #- jekyll-gallery-generator
 - jekyll-paginate
 - jekyll-seo-tag
-permalink: none
+permalink: pretty
 paginate: 8
 exclude: ["less","node_modules","Gruntfile.js","package.json","README.md"]
 
