@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="随心">
+
+    <title>旋转矩阵、欧拉角、四元数和角轴 - zyuzhi</title>
+
+    <link rel="canonical" href="http://zyuzhi.me/blog/Matrix-Euler-AxisAngle-Quaternion.html">
+
+    <!-- Icons -->
+  <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/clean-blog.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link href="//cdn.bootcss.com/KaTeX/0.6.0/katex.min.css" rel="stylesheet">
+    <!-- Begin Jekyll SEO tag v2.0.0 -->
+<title>旋转矩阵、欧拉角、四元数和角轴 - zyuzhi</title>
+<meta property="og:title" content="旋转矩阵、欧拉角、四元数和角轴" />
+<meta name="description" content="旋转矩阵、欧拉角、四元数和角轴的关系及推导" />
+<meta property="og:description" content="旋转矩阵、欧拉角、四元数和角轴的关系及推导" />
+<link rel="canonical" href="http://zyuzhi.me/blog/Matrix-Euler-AxisAngle-Quaternion.html" />
+<meta property="og:url" content="http://zyuzhi.me/blog/Matrix-Euler-AxisAngle-Quaternion.html" />
+<meta property="og:site_name" content="zyuzhi" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2016-09-22T00:00:00+00:00" />
+<script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "BlogPosting",
+    "headline": "旋转矩阵、欧拉角、四元数和角轴",
+    "datePublished": "2016-09-22T00:00:00+00:00",
+    "description": "旋转矩阵、欧拉角、四元数和角轴的关系及推导",
+    "url": "http://zyuzhi.me/blog/Matrix-Euler-AxisAngle-Quaternion.html"
+  }
+</script>
+<!-- End Jekyll SEO tag -->
+</head>
+
+
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">zyuzhi</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="/">Home</a>
+                </li>
+                
+                <li>
+                    <a href="/About.html">About</a>
+                </li>
+                
+                <li>
+                    <a href="/tags.html">Tags</a>
+                </li>
+                
+
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+
+
+    <!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        background-image: url('/img/road.jpg')
+    }
+</style>
+
+<header class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="Tags">
+                        
+                        <a class="tag" href="/Tags/#数学" title="数学">数学</a>
+                        
+                    </div>
+                    <h1>旋转矩阵、欧拉角、四元数和角轴</h1>
+                    
+                    <span class="meta">Posted by zyuzhi on September 22, 2016</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 post-container">
+
+                <p>最近对三维空间的旋转表达方式做了整理。
+三维空间中常用的表征旋转的方式有：
+<strong><a href="https://en.wikipedia.org/wiki/Rotation_matrix">旋转矩阵(rotation matrix)</a></strong>、
+<strong><a href="https://en.wikipedia.org/wiki/Euler_angles">欧拉角(euler angles)</a></strong>、
+<strong><a href="https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation">四元数(quaternion)</a></strong>和
+<strong><a href="https://en.wikipedia.org/wiki/Axis%E2%80%93angle_representation">角轴(axis angle)</a></strong>。</p>
+
+<p>自己的一些理解：</p>
+
+<ol>
+  <li>欧拉角中的 <strong>(x, y, z)</strong>，<strong>(roll, pitch, yaw)</strong>，<strong>(heading, elevation(attitude), bank)</strong>是一回事，名称不同</li>
+  <li>四元数和角轴近似</li>
+  <li>角轴（<strong>Axis Angle</strong>）和<strong>exponential twist</strong>、罗德里格斯（<strong>Rodrigues</strong>）旋转向量是一回事，叫法不同，公式上有微小不同</li>
+  <li>欧拉角、四元数和角轴是更符合人类思维的表达方式，这三种旋转方式都可以转换为旋转矩阵，旋转矩阵更利于计算机计算——将空间旋转（spatial rotation）变为矩阵运算。</li>
+</ol>
+
+<p>后文分享了欧拉角、四元数、角轴与旋转矩阵相互转换公式。数学原理和代码实现将会在后续的blog中Po出。</p>
+
+<h2 id="section">相互转换</h2>
+
+<p>旋转矩阵：
+$R=\begin{bmatrix}x_{11} &amp; x_{12} &amp; x_{13} \\ x_{21} &amp; x_{22} &amp; x_{23} \\ x_{31} &amp; x_{32} &amp; x_{33}\end{bmatrix}$，
+欧拉角：
+$\begin{bmatrix}\theta_x \\ \theta_y \\ \theta_z \end{bmatrix}$，
+四元数：
+$q=\begin{bmatrix}x \\ y \\ z \\ \omega \end{bmatrix}$，
+角轴：
+$r=\begin{pmatrix}\begin{bmatrix}k_x \\ k_y \\ k_z \end{bmatrix},&amp; \theta\end{pmatrix}$</p>
+
+<h3 id="longleftrightarrow">欧拉角$\longleftrightarrow$旋转矩阵</h3>
+<ol>
+  <li>
+    <p>欧拉角$\longrightarrow$旋转矩阵<br />
+绕$x$(<em>roll</em>)、$y$(<em>pitch</em>)、$z$(<em>yaw</em>)轴分别旋转$\theta_x$、$\theta_y$、$\theta_z$的各旋转矩阵$R_x$、$R_y$、$R_z$
+$$\left\lbrace\begin{aligned}R_x &amp;=&amp; \begin{bmatrix}1 &amp; 0 &amp; 0 \\ 0 &amp; \cos\theta_x &amp; -\sin\theta_x \\ 0 &amp; \sin\theta_x &amp; \cos\theta_x \end{bmatrix} \\ R_y &amp;=&amp; \begin{bmatrix} \cos\theta_y &amp; 0 &amp; \sin\theta_y \\ 0 &amp; 1 &amp; 0 \\ -\sin\theta_y &amp; 0 &amp; \cos\theta_y \end{bmatrix} \\ R_z &amp;=&amp; \begin{bmatrix} \cos\theta_z &amp; -\sin\theta_z &amp; 0 \\ \sin\theta_z &amp; \cos\theta_z &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{bmatrix}\end{aligned}\right.$$
+则
+$$\left\lbrace\begin{array}{cc}R=R_x \cdot R_y \cdot R_z &amp; or \\ R=R_x \cdot R_z \cdot R_y &amp; or \\ R=R_y \cdot R_x \cdot R_z &amp; or \\ \vdots &amp; \\ R=R_z \cdot R_y \cdot R_x &amp; \end{array}\right.$$
+通常是按照<em>roll</em>$\rightarrow$<em>pitch</em>$\rightarrow$<em>yaw</em>的顺序进行旋转的，即
+$$\begin{aligned}
+&amp; R &amp;=&amp; R_z \cdot R_y \cdot R_x \\ \\ &amp; &amp;=&amp;\begin{bmatrix}
+\cos\theta_z\cos\theta_y &amp; \cos\theta_z\sin\theta_y\sin\theta_x-\sin\theta_z\cos\theta_x &amp; \cos\theta_z\sin\theta_y\cos\theta_x+\sin\theta_z\sin\theta_x \\ 
+\sin\theta_z\cos\theta_y &amp; \sin\theta_z\sin\theta_y\sin\theta_x-\sin\theta_z\cos\theta_x &amp; \sin\theta_z\sin\theta_y\cos\theta_x+\cos\theta_z\sin\theta_x \\ 
+-\sin\theta_y &amp; \cos\theta_y\sin\theta_x &amp; \cos\theta_y\cos\theta_x 
+\end{bmatrix}\end{aligned}$$</p>
+  </li>
+  <li>
+    <p>旋转矩阵$\longrightarrow$欧拉角</p>
+  </li>
+</ol>
+
+<h3 id="longleftrightarrow-1">角轴$\longleftrightarrow$旋转矩阵</h3>
+<ol>
+  <li>
+    <p>角轴$\longrightarrow$旋转矩阵<br />
+绕转轴
+$\left\lbrace\begin{aligned}&amp;\vec{k}&amp;=&amp;\begin{bmatrix} k_x \\ k_y \\ k_z \end{bmatrix} \\ &amp;||\vec{k}|| &amp;=&amp; 1\end{aligned}\right.$
+按照右手定则旋转
+$\theta$<br />
+有
+$$K=\begin{bmatrix}0 &amp; -k_z &amp; k_y \\ k_z &amp; 0 &amp; -k_x \\ -k_y &amp; k_x &amp; 0 \end{bmatrix}$$
+则旋转矩阵$R$为
+$$\begin{aligned}&amp; R &amp;=&amp; I+(\sin\theta)K+(1-\cos\theta)K^2 \\ &amp; &amp;=&amp; \exp(\theta K) \end{aligned}$$
+注：罗德里格斯旋转向量$\vec{r}=\theta\cdot\vec{k}$</p>
+  </li>
+  <li>
+    <p>旋转矩阵$\longrightarrow$角轴<br />
+旋转矩阵
+$$R=\begin{bmatrix}x_{11} &amp; x_{12} &amp; x_{13} \\ x_{21} &amp; x_{22} &amp; x_{23} \\ x_{31} &amp; x_{32} &amp; x_{33}\end{bmatrix}$$
+ 则角轴
+$$\left\lbrace
+\begin{aligned}
+  &amp;\theta &amp;=&amp; \cos^{-1}(\frac{x_{11}+x_{22}+x_{33}-1}{2})
+\\ &amp;\vec{k} &amp;=&amp; \begin{bmatrix}\frac{x_{32}-x_{23}}{m} \\\frac{x_{13}-x_{31}}{m} \\\frac{x_{21}-x_{12}}{m} \end{bmatrix}
+\end{aligned}
+\right.$$
+其中
+$$m=\sqrt{(x_{32}-x_{23})^2+(x_{13}-x_{31})^2+(x_{21}-x_{12})^2}$$</p>
+  </li>
+</ol>
+
+<h3 id="longleftrightarrow-2">四元数$\longleftrightarrow$旋转矩阵</h3>
+<ol>
+  <li>四元数$\longrightarrow$旋转矩阵<br />
+四元数$$q=\begin{bmatrix}x \\ y \\ z \\ \omega \end{bmatrix}$$
+则旋转矩阵
+$$\begin{aligned}
+&amp; R &amp;=&amp; I+2\cdot\begin{bmatrix}-y^2-z^2 &amp; x\cdot y &amp; x \cdot z \\ x \cdot y &amp; -x^2-z^2 &amp; y \cdot z \\ x \cdot z &amp; y \cdot z &amp; -x^2-y^2\end{bmatrix}+2\cdot\omega\cdot\begin{bmatrix}0 &amp; -z &amp; y \\ z &amp; 0 &amp; -x \\ -y &amp; x &amp; 0 \end{bmatrix} \\ \\ &amp; &amp;=&amp; \begin{bmatrix}1-2y^2-2z^2 &amp; 2xy-2z\omega &amp; 2xz+2y\omega \\ 2xy+2z\omega &amp; 1-2x^2-2z^2 &amp; 2yz-2x\omega \\ 2xz-2y\omega &amp; 2yz+2x\omega &amp; 1-2x^2-2y^2\end{bmatrix}
+\end{aligned}$$</li>
+  <li>旋转矩阵$\longrightarrow$四元数<br />
+旋转矩阵
+$$R=\begin{bmatrix}x_{11} &amp; x_{12} &amp; x_{13} \\ x_{21} &amp; x_{22} &amp; x_{23} \\ x_{31} &amp; x_{32} &amp; x_{33}\end{bmatrix}$$
+则四元数为
+$$\left\lbrace\begin{aligned}&amp;\omega &amp;=&amp; \frac{\sqrt{1+x_{11}+x_{22}+x_{33}}}{2} \\ &amp;x &amp;=&amp; \frac{x_{32}-x_{23}}{4\omega} \\ \\ &amp;y &amp;=&amp; \frac{x_{13}-x_{31}}{4\omega} \\ \\ &amp;z &amp;=&amp; \frac{x_{21}-x_{12}}{4\omega}\end{aligned}\right.$$</li>
+</ol>
+
+
+
+                <hr>
+
+
+                <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">CC A-S 4.0 International License</a>.
+
+                <hr>
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/blog/CSharp-Exception-Throw.html" data-toggle="tooltip" data-placement="top" title="C#异常：throw，throw ex，throw new Exception(..)">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                <!-- Duoshuo Share start -->
+                <style>
+                    .ds-share{
+                        text-align: right;
+                    }
+                    
+                    @media only screen and (max-width: 700px) {
+                        .ds-share {
+
+                        }
+                    }
+                </style>
+
+                <div class="ds-share"
+                    data-thread-key="/blog/Matrix-Euler-AxisAngle-Quaternion" data-title="旋转矩阵、欧拉角、四元数和角轴"
+                    data-images="http://zyuzhi.me/img/road.jpg"
+                    data-content="最近对三维空间的旋转表达方式做了整理。
+三维空间中常用的表征旋转的方式有：
+旋转矩阵(rotation matrix)、
+欧拉角(euler angles... | Microdust:Azeril's blog"
+                    data-url="http://zyuzhi.me/blog/Matrix-Euler-AxisAngle-Quaternion.html">
+                    <div class="ds-share-inline">
+                      <ul  class="ds-share-icons-16">
+
+                        <li data-toggle="ds-share-icons-more"><a class="ds-more" href="#">分享到：</a></li>
+                        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+                        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+                        <li><a class="ds-douban" href="javascript:void(0);" data-service="douban">豆瓣</a></li>
+                      </ul>
+                      <div class="ds-share-icons-more">
+                      </div>
+                    </div>
+                <hr>
+                </div>
+                <!-- Duoshuo Share end-->
+
+
+
+
+                <!-- 多说评论框 start -->
+                <div class="comment">
+                    <div class="ds-thread" data-thread-key="/blog/Matrix-Euler-AxisAngle-Quaternion" data-title="旋转矩阵、欧拉角、四元数和角轴" data-url="http://zyuzhi.me/blog/Matrix-Euler-AxisAngle-Quaternion.html"></div>
+                </div>
+                <!-- 多说评论框 end -->
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"azeril"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0]
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+</script>
+<!-- 多说公共JS代码 end -->
+
+
+
+</script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("http://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+  
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    <!-- kill the Facebook and Weibo -->
+                    <li>
+                        <a href="/feed.xml">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li>
+                        <a href="https://twitter.com/zyuzhi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    
+                    <li>
+                        <a href="https://github.com/zyuzhi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                    <!--
+                    
+                    -->
+
+                    
+                    
+                    
+
+                    
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/z.yuzhi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                    
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="http://weibo.com/yuzhi在上海">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-weibo fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+
+                </ul>
+                <p class="copyright text-muted">
+                &copy; 2011~2016 zyuzhi ♪ Powered by Jekyll.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/clean-blog.min.js "></script>
+
+
+
+
+<!-- Highlight.js -->
+<script>
+    async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js",function(){
+        hljs.initHighlightingOnLoad();
+    })
+</script>
+<link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+<script src="//cdn.bootcss.com/KaTeX/0.6.0/katex.min.js"></script>
+<script src="//cdn.bootcss.com/KaTeX/0.6.0/contrib/auto-render.min.js"></script>
+<script>
+      renderMathInElement(
+          document.body,
+          {
+              delimiters: [
+                  {left: "$$", right: "$$", display: true},
+                  {left: "\\[", right: "\\]", display: true},
+                  {left: "$", right: "$", display: false},
+                  {left: "\\(", right: "\\)", display: false}
+              ]
+          }
+      );
+</script>
+
+</body>
+
+</html>
