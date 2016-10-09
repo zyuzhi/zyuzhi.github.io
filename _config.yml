@@ -17,10 +17,10 @@ owner:
 gavatar: http://dreamofbook.qiniudn.com/Az..png
 favicon: /img/favicon.ico
 
-#douban_username: Azeril
+#douban_username: 
 twitter_username: zyuzhi
 github_username: zyuzhi  
-#facebook_username: yuzhi.me
+#facebook_username: 
 weibo_username: yuzhi在上海
 zhihu_username: z.yuzhi  
 
@@ -29,8 +29,27 @@ zhihu_username: z.yuzhi
 # document: http://jekyllrb.com/docs/configuration/#kramdown  
 markdown: kramdown
 kramdown:
-  input: GFM
+  input:          GFM
+  # https://github.com/jekyll/jekyll/pull/4090
+  syntax_highlighter: rouge
+
+  # Rouge Highlighter in Kramdown › http://kramdown.gettalong.org/syntax_highlighter/rouge.html
+  # span, block element options fall back to global
+  syntax_highlighter_opts:
+    # Rouge Options › https://github.com/jneen/rouge#full-options
+    css_class: 'highlight'
+    table_class: z-code-table
+    gutter_class: z-code-gutter
+    code_class: z-code-col
+    #line_numbers: true # bad idea, spans don't need linenos and would inherit this option
+    span:
+      line_numbers: false
+    block:
+      line_numbers: true
+      start_line: 1
+
 highlighter: rouge
+line_numbers: true
 
 gems: 
 #- jekyll-gallery-generator
@@ -67,7 +86,7 @@ comments :
       short_name : zyuzhi
 
 # Analytics and webmaster tools stuff goes here
-google_analytics: UA-66863061-1
+google_analytics: 
 google_verify:
 # https://ssl.bing.com/webmaster/configure/verify/ownership Option 2 content= goes here
 bing_verify:
