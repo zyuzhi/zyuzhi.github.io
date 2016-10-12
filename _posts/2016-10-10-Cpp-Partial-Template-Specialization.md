@@ -33,6 +33,7 @@ description: C++特化和偏特化
 1. 偏特化(Partial Template Specialization)
 
    偏特化有两种不尽相同的特化形式，“对部分模板参数进行特化”和“对模板参数进行限定”的两种偏特化形式。
+
    1. 对部分模板参数进行特化
 
       ```cpp
