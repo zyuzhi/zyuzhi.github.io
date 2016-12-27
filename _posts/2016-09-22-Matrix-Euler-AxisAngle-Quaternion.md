@@ -48,6 +48,15 @@ description: 旋转矩阵、欧拉角、四元数和角轴的关系及推导
 \end{bmatrix}\end{aligned}\$$
 
 1. 旋转矩阵\$\longrightarrow\$欧拉角  
+旋转矩阵：
+\$R=\begin{bmatrix}x_{11} & x_{12} & x_{13} \\\\ x_{21} & x_{22} & x_{23} \\\\ x_{31} & x_{32} & x_{33}\end{bmatrix}\$，
+则其欧拉角\$x\$(*roll*)、\$y\$(*pitch*)、\$z\$(*yaw*)的表达式分为三种情况:
+   1. 当\$x_{21}=0\$时：
+      \$$\left\lbrace\begin{aligned}&\theta_x &=& atan2(x_{13},x_{33}) \\\\ &\theta_y &=& \pi/2 \\\\ &\theta_z &=& 0\end{aligned}\right.\$$
+   2. 当\$x_{21}=0\$时：
+      \$$\left\lbrace\begin{aligned}&\theta_x &=& atan2(x_{13},x_{33}) \\\\ &\theta_y &=& -\pi/2 \\\\ &\theta_z &=& 0\end{aligned}\right.\$$
+   3. 其他：
+      \$$\left\lbrace\begin{aligned}&\theta_x &=& atan2(x_{13},x_{33}) \\\\ &\theta_y &=& asin(x_{21}) \\\\ &\theta_z &=& atan2(-x_{23},x_{22})\end{aligned}\right.\$$
 
 ### 角轴\$\longleftrightarrow\$旋转矩阵
 1. 角轴\$\longrightarrow\$旋转矩阵  
