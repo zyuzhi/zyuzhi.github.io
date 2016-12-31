@@ -93,6 +93,25 @@ description: 旋转矩阵、欧拉角、四元数和角轴的关系及推导
 1. 旋转矩阵\$\longrightarrow\$四元数  
 旋转矩阵
 \$$R=\begin{bmatrix}x_{11} & x_{12} & x_{13} \\\\ x_{21} & x_{22} & x_{23} \\\\ x_{31} & x_{32} & x_{33}\end{bmatrix}\$$
-则四元数为
+则四元数为（这一公式还存疑）
 \$$\left\lbrace\begin{aligned}&\omega &=& \frac{\sqrt{1+x_{11}+x_{22}+x_{33}}}{2} \\\\ &x &=& \frac{x_{32}-x_{23}}{4\omega} \\\\ \\\\ &y &=& \frac{x_{13}-x_{31}}{4\omega} \\\\ \\\\ &z &=& \frac{x_{21}-x_{12}}{4\omega}\end{aligned}\right.\$$
 
+### 角轴\$\longleftrightarrow\$四元数
+1. 角轴\$\longrightarrow\$四元数  
+角轴：
+\$r=\begin{pmatrix}\begin{bmatrix}k_x \\\\ k_y \\\\ k_z \end{bmatrix},& \theta\end{pmatrix}\$
+，且\$k_x^2+k_y^2+k_z^2=1\$  
+则四元数：
+\$$q=\begin{bmatrix}x \\\\ y \\\\ z \\\\ \omega \end{bmatrix}=
+\begin{bmatrix}k_x \cdot sin(\theta/2) \\\\ k_y \cdot sin(\theta/2) \\\\ k_z \cdot sin(\theta/2) \\\\ cos(\theta/2)\end{bmatrix}\$$
+
+1. 四元数\$\longrightarrow\$角轴  
+有四元数：
+\$$q=\begin{bmatrix}x \\\\ y \\\\ z \\\\ \omega \end{bmatrix}\$$
+则角轴为\$r=\begin{pmatrix}\begin{bmatrix}k_x \\\\ k_y \\\\ k_z \end{bmatrix},& \theta\end{pmatrix}\$为三中情况：
+   1. 当\$q=\begin{bmatrix}x \\\\ y \\\\ z \\\\ \omega \end{bmatrix}=\begin{bmatrix}0 \\\\ 0 \\\\ 0
+      \\\\ 1 \end{bmatrix}\$时：  
+      \$\theta=0\$，且转轴可以为任意轴
+   1. 当\$q=\begin{bmatrix}x \\\\ y \\\\ z \\\\ \omega \end{bmatrix}=\begin{bmatrix}x \\\\ y \\\\ z
+      \\\\ 0 \end{bmatrix}\$时：  
+      \$\theta=\pi\$，且转轴为\$\begin{bmatrix}k_x \\\\ k_y \\\\ k_z \end{bmatrix}=\begin{bmatrix}x \\\\ y \\\\ z \end{bmatrix}\$
